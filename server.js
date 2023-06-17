@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const app = require("./app");
 
 const DB_HOST =
-  "mongodb+srv://Tanya:xhD3by4Te4.v7!*@cluster0.v0etof5.mongodb.net/db-contacts?retryWrites=true&w=majority";
+  "mongodb+srv://Tanya:xhD3by4Te4.v7!*@cluster0.v0etof5.mongodb.net/?retryWrites=true&w=majority";
 
-mongoose.set("strictQuery", true);
+// const PORT = 3000;
+// mongoose.set("strictQuery", true);
 
 mongoose
   .connect(DB_HOST)
@@ -14,3 +15,5 @@ mongoose
 // app.listen(3000, () => {
 //   console.log("Server running. Use our API on port: 3000");
 // });
+
+// <!-- xhD3by4Te4.v7!* -->
