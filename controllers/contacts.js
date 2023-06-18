@@ -1,15 +1,17 @@
-const { HttpError, controllerWraper } = require("../helpers");
-
-const contacts = require("../models/contacts");
+const { controllerWraper, HttpError } = require("../helpers");
+const { Contact } = require("../models/contact");
 
 const getAll = async (req, res) => {
-  const result = await contacts.listContacts();
+  const result = await Contact.find();
   res.json(result);
 };
 
 const getById = async (req, res) => {
   const { contactId } = req.params;
-  const result = await contacts.getContactById(contactId);
+  console.log(contactId);
+  console.log(req.params);
+  const result = await Contact.findById(contactId);
+  console.log(result);
   if (!result) {
     throw HttpError(404, "Not found");
   }
@@ -17,15 +19,27 @@ const getById = async (req, res) => {
 };
 
 const addContact = async (req, res) => {
-  const result = await contacts.addContact(req.body);
+  const result = await Contact.create(req.body);
   res.status(201).json(result);
 };
 
 const updateContact = async (req, res) => {
   const { contactId } = req.params;
-  const result = await contacts.updateContact(contactId, req.body);
+  const result = await Contact.findByIdAndUpdate(contactId, req.body, {
+    new: true,
+  });
   if (!result) {
     throw HttpError(404, "Not found");
+  }
+  res.json(result);
+};
+const updateStatusContact = async (req, res) => {
+  const { contactId } = req.params;
+  const result = await Contact.findByIdAndUpdate(contactId, req.body, {
+    new: true,
+  });
+  if (!result) {
+    throw HttpError(404, "missing field favorite");
   }
   res.json(result);
 };
@@ -33,7 +47,7 @@ const updateContact = async (req, res) => {
 const deleteContact = async (req, res) => {
   const { contactId } = req.params;
   console.log(req.params);
-  const result = await contacts.removeContact(contactId);
+  const result = await Contact.findByIdAndRemove(contactId);
   if (!result) {
     throw HttpError(404, "Not found");
   }
@@ -47,5 +61,6 @@ module.exports = {
   getById: controllerWraper(getById),
   addContact: controllerWraper(addContact),
   updateContact: controllerWraper(updateContact),
+  updateStatusContact: controllerWraper(updateStatusContact),
   deleteContact: controllerWraper(deleteContact),
 };
