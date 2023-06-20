@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 const { handdleMongooseError } = require("../helpers");
 
-const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const emailRegexp = /^\w+([[\].-]?\w+)*@\w+([[\].-]?\w+)*(\.\w{2,3})+$/;
 
 const passwordList = [true, "Set password for user"];
 const emailList = [true, "Email is required"];
@@ -27,7 +27,10 @@ const userSchema = new Schema(
       enum: subscriptionList,
       default: "starter",
     },
-    token: String,
+    token: {
+      type: String,
+      default: "",
+    },
   },
   { versionKey: false, timestamps: true }
 );

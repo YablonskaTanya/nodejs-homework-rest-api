@@ -1,6 +1,6 @@
 const express = require("express");
 const { schemas } = require("../../models/user");
-const { validataBody } = require("../../middlewars");
+const { validataBody, authenticate } = require("../../middlewars");
 const controllers = require("../../controllers/auth");
 const router = express.Router();
 
@@ -11,5 +11,9 @@ router.post(
 );
 
 router.post("/login", validataBody(schemas.loginSchema), controllers.login);
+
+router.get("/current", authenticate, controllers.getCurrent);
+
+router.post("/logout", authenticate, controllers.logout);
 
 module.exports = router;
